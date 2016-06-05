@@ -157,21 +157,7 @@ class AccountApi extends BaseApi {
 
     login (context, req, res) {
 		if(req.body && req.body.fb_token) {
-			try {
-				FB.setAccessToken(req.body.fb_token);
-				FB.api('/me?fields=name,email', function (_res) {
-					if(!_res || _res.error) {
-						var err = !_res ? { message:'error occurred'} : _res.error;
-						context.error(req, res, err, 500);
-					}
-					else {
-						res.json(_res);
-					}
-				});
-			}
-			catch(err) {
-				context.error(req, res, err, 500);
-			}
+			context.facebookLogin(context, req, res);
 		}
 		else {
 			context.validateLogin(req.body).then(function (_user) {
@@ -186,6 +172,66 @@ class AccountApi extends BaseApi {
 			});
 		}
     }
+	
+	facebookLogin (context, req, res) {
+		FB.setAccessToken(req.body.fb_token);
+		FB.api('/me?fields=name,email', function (_res) {
+			if(!_res || _res.error) {
+				var err = !_res ? { message:'error occurred'} : _res.error;
+				context.error(req, res, err, 500);
+			}
+			else {
+				context.findByEmail(_res.email).then(function (users) {
+					if (users.length) {
+						var user = context.loginSerializer(users[0]);
+						Authorize.authorizeUser(user).then(function (auth_user) {
+								context.success(req, res, auth_user);
+							}).catch(function (err) {
+								context.error(req, res, err, 500);
+							});
+						}).catch(function (err) {
+							context.error(req, res, err, 400);
+						});
+					}
+					else {
+						var data = {
+							email: _res.email,
+							name: _res.name
+						};
+						context.validateRegister(data).then(function () {
+							var user = context.registerModel(data);
+							User.create(user, { isNewRecord: true }).then(function (model) {
+								context.findByEmail(_res.email).then(function (_users) {
+									if(_users.length) {
+										var _user = context.loginSerializer(_users[0]);
+										Authorize.authorizeUser(_user).then(function (auth_user) {
+												context.success(req, res, auth_user);
+											}).catch(function (err) {
+												context.error(req, res, err, 500);
+											});
+										}).catch(function (err) {
+											context.error(req, res, err, 400);
+										});
+									}
+									else {
+										context.error(req, res, {message: 'USER NOT FOUND'}, 404);
+									}
+								}).catch(function(err){
+									context.error(req, res, err, 500);
+								});
+							}).catch(function (err) {
+								context.error(req, res, err, 500);
+							});
+						}).catch(function (err) {
+							context.error(req, res, err, 400);
+						});
+					}
+				}).catch(function (err) {
+					context.error(req, res, err, 500);
+				});
+			}
+		});
+	}
 
     register (context, req, res) {
         var data = req.body;

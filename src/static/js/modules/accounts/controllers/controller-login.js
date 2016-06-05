@@ -41,15 +41,15 @@ module.controller('LoginController', ['$scope', '$cookies', 'AccountService', 'N
 		NotificationService.loading();
 		AccountService.login(data)
 			.success(function (res) {
-				//$cookies.put('Authorization', res.data.token);
-				//window.location.href = '/dashboard';
+				$cookies.put('Authorization', res.data.token);
+				window.location.href = '/dashboard';
 			})
 			.error(function (ressponse, status) {
 				if (status === 400) {
-					//$scope.status.invalid = true;
+					$scope.status.invalid = true;
 				}
 				else {
-					//$scope.status.error = true;
+					$scope.status.error = true;
 				}
 				console.log(response);
 			}).finally(function () {
