@@ -20,6 +20,12 @@ function API(ac) {
 	FB.api('/me?fields=name,email', function (response) {
 		var creds = response;
 		creds.fb_token = ac.authResponse.accessToken;
+		$.postJSON('/api/v1/accounts/login', creds).success(function(res){
+			console.log(res);
+		}).error(function(res){
+			console.log(res);
+		});
+		/*
 		$.ajax({
 		  url: '/api/v1/accounts/login',
 		  type: 'POST',
@@ -29,10 +35,10 @@ function API(ac) {
 		  success: function(res){
 			console.log(res);
 		  },
-		  error: function () {
+		  error: function (res) {
 			console.log(res);
 		  }
-		});
+		});*/
 	});
 }
 
