@@ -20,20 +20,7 @@ function API(ac) {
 	FB.api('/me?fields=name,email', function (response) {
 		var creds = response;
 		creds.fb_token = ac.authResponse.accessToken;
-
-		$.ajax({
-		  url: '/api/v1/accounts/login',
-		  type: 'POST',
-		  data: JSON.stringify(creds),
-		  contentType: 'application/json;; charset=utf-8',
-		  dataType: 'json',
-		  success: function(res){
-			console.log(res);
-		  },
-		  error: function (res) {
-			console.log(res);
-		  }
-		});
+		angular.element(document.getElementById('loginForm')).scope().facebookLogin(creds);
 	});
 }
 

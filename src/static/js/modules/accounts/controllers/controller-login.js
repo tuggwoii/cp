@@ -35,6 +35,27 @@ module.controller('LoginController', ['$scope', '$cookies', 'AccountService', 'N
                 });
         }
     };
+	
+	$scope.facebookLogin = function (data) {
+		console.log(data);
+		NotificationService.loading();
+		AccountService.login(data)
+			.success(function (res) {
+				//$cookies.put('Authorization', res.data.token);
+				//window.location.href = '/dashboard';
+			})
+			.error(function (ressponse, status) {
+				if (status === 400) {
+					//$scope.status.invalid = true;
+				}
+				else {
+					//$scope.status.error = true;
+				}
+				console.log(response);
+			}).finally(function () {
+				NotificationService.stopLoading();
+			});
+	};
 
     $scope.onLoad();
 
