@@ -165,7 +165,7 @@ class AccountApi extends BaseApi {
 						context.error(req, res, err, 500);
 					}
 					else {
-						res.json(res);
+						res.json(_res);
 					}
 				});
 			}
