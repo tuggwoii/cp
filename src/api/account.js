@@ -185,12 +185,9 @@ class AccountApi extends BaseApi {
 					if (users.length) {
 						var user = context.loginSerializer(users[0]);
 						Authorize.authorizeUser(user).then(function (auth_user) {
-								context.success(req, res, auth_user);
-							}).catch(function (err) {
-								context.error(req, res, err, 500);
-							});
+							context.success(req, res, auth_user);
 						}).catch(function (err) {
-							context.error(req, res, err, 400);
+							context.error(req, res, err, 500);
 						});
 					}
 					else {
@@ -205,12 +202,9 @@ class AccountApi extends BaseApi {
 									if(_users.length) {
 										var _user = context.loginSerializer(_users[0]);
 										Authorize.authorizeUser(_user).then(function (auth_user) {
-												context.success(req, res, auth_user);
-											}).catch(function (err) {
-												context.error(req, res, err, 500);
-											});
+											context.success(req, res, auth_user);
 										}).catch(function (err) {
-											context.error(req, res, err, 400);
+											context.error(req, res, err, 500);
 										});
 									}
 									else {
