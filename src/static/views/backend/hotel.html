@@ -1,0 +1,30 @@
+﻿<div ng-controller="HotelController">
+    <h1>
+        <span class="uppercase">{{model.name?model.name:'LOADING...'}}</span>
+        <button class="btn btn-danger" ng-click="onDelete()">
+            <i class="fa fa-remove"></i>{{strings['delete']}}
+        </button>
+    </h1>
+    <div>
+        <form>
+            <div class="form-group">
+                <label>{{strings['hotel_name']}}</label>
+                <input ng-required="true" class="form-control" type="text" ng-model="model.name" />
+            </div>
+            <div class="form-group">
+                <label>{{strings['low_price']}}</label>
+                <input class="form-control" type="number" ng-model="model.price" />
+            </div>
+            <div class="form-group">
+                <label>{{strings['rank']}}</label>
+                <select class="form-control" ng-model="model.rank" >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>

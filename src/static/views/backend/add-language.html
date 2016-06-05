@@ -1,0 +1,17 @@
+﻿<div class="panel animated {{form.animate}}" ng-if="form.displayForm">
+    <h1>
+        <span>{{strings['add_language']}}</span>
+    </h1>
+    <form name="appForm" class="form">
+        <div class="form-group">
+            <input type="text"
+                   placeholder="ชื่อภาษา"
+                   ng-keypress="keyPress($event, appForm)"
+                   class="form-control {{form.error}}"
+                   ng-model="form.model.name"
+                   ng-required="true" />
+        </div>
+        <button type="button" class="btn btn-success" ng-click="onCreate(appForm)">{{strings['add']}}</button>
+        <button type="button" class="btn btn-default" ng-click="closeForm()">{{strings['cancel']}}</button>
+    </form>
+</div>
