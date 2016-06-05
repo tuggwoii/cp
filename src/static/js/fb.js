@@ -24,7 +24,7 @@ function API(ac) {
 		$.ajax({
 		  url: '/api/v1/accounts/login',
 		  type: 'POST',
-		  data: creds,
+		  data: JSON.stringify(creds),
 		  contentType: 'application/json;; charset=utf-8',
 		  dataType: 'json',
 		  success: function(res){
