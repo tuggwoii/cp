@@ -19,7 +19,7 @@ function API(ac) {
 	var creds = { fb_token: ac.authResponse.accessToken }
 	FB.api('/me?fields=name,email', function (response) {
 		var creds = response;
-		creds.fb_token: ac.authResponse.accessToken }
+		creds.fb_token = ac.authResponse.accessToken;
 		$.post('/api/v1/accounts/login', creds)
 		.success(function(res){
 			console.log(res);
