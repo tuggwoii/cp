@@ -15,8 +15,8 @@ function checkLoginState() {
 	});
 }
 
-function API(ac) {
-	var creds = { fb_token: ac.authResponse.accessToken }
+function API(fb_creds) {
+	var creds = { fb_token: fb_creds.authResponse.accessToken }
 	FB.api('/me?fields=name,email', function (response) {
 		var creds = response;
 		creds.fb_token = ac.authResponse.accessToken;

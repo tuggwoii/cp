@@ -156,10 +156,8 @@ class AccountApi extends BaseApi {
     }
 
     login (context, req, res) {
-		res.send(req.body);
-		/*
 		if(req.body && req.body.fb_token) {
-			 
+			 res.json(req.body);
 		}
 		else {
 			context.validateLogin(req.body).then(function (_user) {
@@ -172,7 +170,7 @@ class AccountApi extends BaseApi {
 			}).catch(function (err) {
 				context.error(req, res, err, 400);
 			});
-		}*/
+		}
     }
 
     register (context, req, res) {
