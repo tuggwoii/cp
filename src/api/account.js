@@ -159,9 +159,9 @@ class AccountApi extends BaseApi {
 		if(req.body && req.body.fb_token) {
 			try {
 				FB.setAccessToken(req.body.fb_token);
-				FB.api('/me?fields=name,email', function (res) {
-					if(!res || res.error) {
-						var err = !res ? { message:'error occurred'} : res.error;
+				FB.api('/me?fields=name,email', function (_res) {
+					if(!_res || _res.error) {
+						var err = !_res ? { message:'error occurred'} : _res.error;
 						context.error(req, res, err, 500);
 					}
 					else {
