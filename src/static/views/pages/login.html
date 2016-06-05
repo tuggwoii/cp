@@ -28,47 +28,9 @@
             document.write("<script type=\"text/javascript\" src=\"/libs/jquery/dist/jquery.min.js\"><\/script>");
         }
     </script>
-    <script>
 
-        function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
-
-            if (response.status === 'connected') {
-                // Logged into your app and Facebook.
-                testAPI();
-            } else if (response.status === 'not_authorized') {
-                // The person is logged into Facebook, but not your app.
-                document.getElementById('status').innerHTML = 'Please log ' +
-                  'into this app.';
-            } else {
-                // The person is not logged into Facebook, so we're not sure if
-                // they are logged into this app or not.
-                document.getElementById('status').innerHTML = 'Please log ' +
-                  'into Facebook.';
-            }
-        }
-
-        function checkLoginState() {
-            FB.getLoginStatus(function (response) {
-                statusChangeCallback(response);
-            });
-        }
-
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response) {
-                console.log('Successful login for: ' + response);
-            });
-        }
-    </script>
-
-    <button type="button" onclick="checkLoginState();">FACEBOOK</button>
-	<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
+    <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
+	
 </div>
 
     <script src="libs/angular/angular.min.js"></script>
