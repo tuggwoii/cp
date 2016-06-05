@@ -17,9 +17,9 @@ function checkLoginState() {
 
 function API(ac) {
 	var creds = { fb_token: ac.authResponse.accessToken }
-	console.log('Welcome!  Fetching your information.... ', creds);
 	FB.api('/me?fields=name,email', function (response) {
-		console.log('Successful login for: ', response);
+		var creds = response;
+		creds.fb_token: ac.authResponse.accessToken }
 		$.post('/api/v1/accounts/login', creds)
 		.success(function(res){
 			console.log(res);

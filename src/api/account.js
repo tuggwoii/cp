@@ -157,7 +157,7 @@ class AccountApi extends BaseApi {
 
     login (context, req, res) {
 		if(req.body && req.body.fb_token) {
-			context.success(req, res, req.body);
+			 res.json(req.body);
 		}
 		else {
 			context.validateLogin(req.body).then(function (_user) {
