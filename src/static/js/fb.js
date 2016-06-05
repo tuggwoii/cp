@@ -20,11 +20,18 @@ function API(ac) {
 	FB.api('/me?fields=name,email', function (response) {
 		var creds = response;
 		creds.fb_token = ac.authResponse.accessToken;
-		$.post('/api/v1/accounts/login', creds)
-		.success(function(res){
+		$.ajax({
+		  url: '/api/v1/accounts/login',
+		  type: 'POST',
+		  data: creds,
+		  contentType: 'application/json',
+		  dataType:"json",
+		  success: function(res){
 			console.log(res);
-		}).error(function(res){
+		  },
+		  error: function () {
 			console.log(res);
+		  }
 		});
 	});
 }
