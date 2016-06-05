@@ -5,6 +5,9 @@ var User = require('../database/models').User;
 var Role = require('../database/models').Role;
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
+var FB = require('fb'),
+    fb = new FB.Facebook({version: 'v2.6'});
+	
 class AccountApi extends BaseApi {
 
     registerModel (data) {
@@ -153,16 +156,21 @@ class AccountApi extends BaseApi {
     }
 
     login (context, req, res) {
-        context.validateLogin(req.body).then(function (_user) {
+		if(req.body && req.body.fb_token) {
+			context.success(req, res, req.body);
+		}
+		else {
+			context.validateLogin(req.body).then(function (_user) {
             var user = context.loginSerializer(_user);
             Authorize.authorizeUser(user).then(function (auth_user) {
                 context.success(req, res, auth_user);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }).catch(function (err) {
-            context.error(req, res, err, 400);
-        });
+				}).catch(function (err) {
+					context.error(req, res, err, 500);
+				});
+			}).catch(function (err) {
+				context.error(req, res, err, 400);
+			});
+		}
     }
 
     register (context, req, res) {

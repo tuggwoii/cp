@@ -1,34 +1,33 @@
 function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
 
-            if (response.status === 'connected') {
-                // Logged into your app and Facebook.
-                testAPI();
-            } else if (response.status === 'not_authorized') {
-                // The person is logged into Facebook, but not your app.
-                document.getElementById('status').innerHTML = 'Please log ' +
-                  'into this app.';
-            } else {
-                // The person is not logged into Facebook, so we're not sure if
-                // they are logged into this app or not.
-                document.getElementById('status').innerHTML = 'Please log ' +
-                  'into Facebook.';
-            }
-        }
+	console.log(response);
 
-        function checkLoginState() {
-            FB.getLoginStatus(function (response) {
-                statusChangeCallback(response);
-            });
-        }
+	if (response.status === 'connected') {
+		API(response);
+	} else {
+		
+	}
+}
 
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me?fields=name,email', function (response) {
-                console.log('Successful login for: ', response);
-            });
-        }
+function checkLoginState() {
+	FB.getLoginStatus(function (response) {
+		statusChangeCallback(response);
+	});
+}
+
+function API(ac) {
+	var creds = { fb_token: ac.authResponse.accessToken }
+	console.log('Welcome!  Fetching your information.... ', creds);
+	FB.api('/me?fields=name,email', function (response) {
+		console.log('Successful login for: ', response);
+		$.post('/api/v1/accounts/login', creds)
+		.success(function(res){
+			console.log(res);
+		}).error(function(res){
+			console.log(res);
+		});
+	});
+}
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -36,12 +35,12 @@ window.fbAsyncInit = function() {
       xfbml      : true,
       version    : 'v2.6'
     });
-  };
+};
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+(function(d, s, id){
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/sdk.js";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
