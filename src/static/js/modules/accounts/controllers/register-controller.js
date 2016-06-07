@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.controller('RegisterController', ['$scope', '$cookies', 'AccountService', 'NotificationService', function ($scope, $cookies, AccountService, NotificationService) {
+module.controller('RegisterController', ['$scope', function ($scope) {
 
     $scope.model = {};
     $scope.status = {};

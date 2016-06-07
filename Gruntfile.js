@@ -19,14 +19,33 @@ module.exports = function (grunt) {
             path: 'http://127.0.0.1:8000',
             app: 'Chrome'
         }
+    },
+    sass: {
+        dist: {
+            options: {
+                style: 'compressed'
+            },
+            files: {
+                'src/static/css/styles.css': 'src/static/css/import.scss'
+            }
+        }
+    },
+    watch: {
+        css: {
+            files: '**/*.scss',
+            tasks: ['sass']
+        }
     }
   });
 
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-execute');
-  grunt.registerTask('default', ['eslint', 'open','execute']);
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.registerTask('default', ['eslint', 'open', 'execute']);
   grunt.registerTask('test', ['eslint']);
+  grunt.registerTask('css', ['watch']);
   grunt.registerTask('run', ['open','execute']);
   
 };

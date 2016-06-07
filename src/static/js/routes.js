@@ -4,20 +4,15 @@ module.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
 
     $stateProvider
-      .state('Dashboard', {
+      .state('index', {
           url: "/",
-          templateUrl: "backend/dashboard.html"
+          templateUrl: "partials/index.html"
       })
-      .state('hotels', {
-          url: "/hotels",
-          templateUrl: "backend/hotels.html"
-      })
-      .state('hotel', {
-          url: "/hotel",
-          templateUrl: "backend/hotel.html"
-      })
-      .state('languages', {
-          url: "/languages",
-          templateUrl: "backend/languages.html"
+      .state('login', {
+          url: "/login",
+          templateUrl: "partials/login.html"
+      }).state('register', {
+          url: "/register",
+          templateUrl: "partials/register.html"
       });
 });

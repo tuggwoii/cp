@@ -18,6 +18,7 @@ app.use('/favicon.ico', express.static(__dirname + '/src/static/img/favicon.ico'
 app.use('/fonts', express.static(__dirname + '/src/static/fonts'));
 app.use('/resources', express.static(__dirname + '/src/static/resources'));
 app.use('/backend', express.static(__dirname + '/src/static/views/backend'));
+app.use('/partials', express.static(__dirname + '/src/static/views/partials'));
 app.use(bodyParser.json());
 app.use('/api/v1/', apis);
 app.use('/', pages);
