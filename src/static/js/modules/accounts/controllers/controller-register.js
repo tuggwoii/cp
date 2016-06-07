@@ -21,6 +21,7 @@ module.controller('RegisterController', ['$scope', '$cookies', 'AccountService',
         });
         if (form.$valid && $scope.model.password === $scope.model.confirm_password) {
             NotificationService.loading();
+            /*
             AccountService.register($scope.model)
                 .success(function (res) {
                     $cookies.put('Authorization', res.data.token);
@@ -34,6 +35,24 @@ module.controller('RegisterController', ['$scope', '$cookies', 'AccountService',
                     else {
                         $scope.status.error = true;
                     }
+                    NotificationService.stopLoading();
+                });
+                */
+
+            firebase.auth().createUserWithEmailAndPassword($scope.model.email, $scope.model.password)
+                .then(function (res) {
+                    var user = firebase.auth().currentUser;
+                    user.updateProfile({
+                        displayName: $scope.model.name,
+                        photoURL: "https://example.com/jane-q-user/profile.jpg"
+                    }).then(function () {
+                        
+                    }, function (error) {
+                        
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
                     NotificationService.stopLoading();
                 });
         }

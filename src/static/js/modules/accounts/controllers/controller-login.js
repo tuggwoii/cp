@@ -6,18 +6,29 @@ module.controller('LoginController', ['$scope', '$cookies', 'AccountService', 'N
 
     $scope.onLoad = function () {
         NotificationService.loading();
+        /*
         AccountService.me()
             .success(function () {
                 window.location.href = '/dashboard';
             }).error(function () {
                 NotificationService.stopLoading();
             });
+        */
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                console.log(user);
+            } else {
+                console.log('no user');
+                NotificationService.stopLoading();
+            }
+        });
     };
 
     $scope.login = function (form) {
         $scope.status = {};
         if (form.$valid) {
             NotificationService.loading();
+            /*
             AccountService.login($scope.model)
                 .success(function (res) {
                     $cookies.put('Authorization', res.data.token);
@@ -33,11 +44,17 @@ module.controller('LoginController', ['$scope', '$cookies', 'AccountService', 'N
                 }).finally(function () {
                     NotificationService.stopLoading();
                 });
+                */
+
+            firebase.auth().signInWithEmailAndPassword($scope.model.email, $scope.model.password).catch(function (error) {
+                console.log(error);
+                $scope.status.invalid = true;
+                NotificationService.stopLoading();
+            });
         }
     };
 	
 	$scope.facebookLogin = function (data) {
-		console.log(data);
 		NotificationService.loading();
 		AccountService.login(data)
 			.success(function (res) {
