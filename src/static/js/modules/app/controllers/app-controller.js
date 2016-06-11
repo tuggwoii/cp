@@ -14,8 +14,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             });
         }
         else {
-            notLogin();
-            doneCheckAuth();
+            checkLoginState();
         }
     }
 
@@ -27,6 +26,31 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
     function doneCheckAuth () {
         $rootScope.$broadcast('USER_LOADED');
     }
+
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            API(response);
+        } else {
+            notLogin();
+            doneCheckAuth();
+        }
+    }
+
+    function checkLoginState () {
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    function API(fb_creds) {
+        FB.api('/me?fields=name,email', function (response) {
+            var creds = response;
+            creds.fb_token = fb_creds.authResponse.accessToken;
+            console.log(creds);
+            //angular.element(document.getElementById('loginForm')).scope().facebookLogin(creds);
+        });
+    }
+
 
     $scope.init = function () {
         $scope.screenTransition = 'fadeIn';

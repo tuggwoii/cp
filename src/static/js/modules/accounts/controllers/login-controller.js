@@ -37,6 +37,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         else {
             window.location.hash = '#/';
         }
+        FB.XFBML.parse();
     };
 
     $scope.login = function (form) {

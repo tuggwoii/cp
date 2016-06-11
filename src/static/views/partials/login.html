@@ -1,5 +1,5 @@
 ﻿<h1>ลงชื่อเข้าใช้งาน</h1>
-<form name="loginForm" ng-controller="LoginController">
+<form name="loginForm" ng-controller="LoginController" class="login-form">
     <p class="error-message" ng-if="status.invalid">E-mail หรือ Password ไม่ถูกต้อง</p>
     <p class="error-message" ng-if="status.error">ระบบขัดข้องกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ</p>
     <div class="field">
@@ -21,6 +21,6 @@
     <button type="button" ng-click="login(loginForm)">
         Login
     </button>
-
+    <div class="fb-login-button" data-max-rows="1" scope="basic_info, email" onlogin="checkLoginState()" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
     <p>ยังไม่มี Account? <a ng-click="navigateTo('#/register')">สมัครใช้งานฟรี</a></p>
 </form>
