@@ -27,7 +27,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     }
 
     $scope.init = function () {
-        if (!$scope.user.id) {
+        if (!$scope.user || !$scope.user.id) {
             $scope.model = {};
             $scope.status = {
                 invalid: false,
