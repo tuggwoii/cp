@@ -14,7 +14,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             });
         }
         else {
-            checkLoginState();
+            checkFacebookLoginState();
         }
     }
 
@@ -27,26 +27,14 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $rootScope.$broadcast('USER_LOADED');
     }
 
-    function statusChangeCallback(response) {
-        if (response.status === 'connected') {
-            API(response);
-        } else {
-            notLogin();
-            doneCheckAuth();
-        }
+    function noFacebokLogin () {
+        notLogin();
+        doneCheckAuth();
     }
 
-    function checkLoginState () {
+    function checkFacebookLoginState () {
         FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });
-    }
-
-    function API(fb_creds) {
-        FB.api('/me?fields=name,email', function (response) {
-            var creds = response;
-            creds.fb_token = fb_creds.authResponse.accessToken;
-            facebookLogin(creds);
+            statusChangeCallback(response, facebookLogin, noFacebokLogin);
         });
     }
 
@@ -57,6 +45,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
             window.cheepow.user = res.data;
             $scope.user = window.cheepow.user;
+            console.log($scope.user);
         }).error(function () {
             notLogin();
         }).finally(function () {

@@ -26,6 +26,13 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         }
     }
 
+    function checkLoginState () {
+        FB.getLoginStatus(function (response) {
+            console.log('zsdf');
+            //statusChangeCallback(response, facebookLogin, noFacebokLogin);
+        });
+    }
+
     $scope.init = function () {
         if (!$scope.user || !$scope.user.id) {
             $scope.model = {};
