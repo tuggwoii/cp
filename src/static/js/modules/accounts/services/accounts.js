@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('AccountService', ['$http', 'URLS', function ($http, $q, URLS) {
+module.factory('AccountService', ['$http', '$q', 'URLS', function ($http, $q, URLS) {
 	return {
         login: function (model) {
             return $http.post(URLS.model('accounts').login, model);
