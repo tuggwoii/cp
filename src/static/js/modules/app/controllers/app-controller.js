@@ -46,11 +46,23 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         FB.api('/me?fields=name,email', function (response) {
             var creds = response;
             creds.fb_token = fb_creds.authResponse.accessToken;
-            console.log(creds);
-            //angular.element(document.getElementById('loginForm')).scope().facebookLogin(creds);
+            facebookLogin(creds);
         });
     }
 
+    function facebookLogin (creds) {
+        AccountService.login(creds).success(function (res) {
+            var date = new Date();
+            var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+            $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
+            window.cheepow.user = res.data;
+            $scope.user = window.cheepow.user;
+        }).error(function () {
+            notLogin();
+        }).finally(function () {
+            doneCheckAuth();
+        });
+    }
 
     $scope.init = function () {
         $scope.screenTransition = 'fadeIn';
