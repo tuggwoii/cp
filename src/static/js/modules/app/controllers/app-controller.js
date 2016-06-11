@@ -3,17 +3,21 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
     function userAuth () {
         if ($cookies.get('Authorization')) {
+            console.log('1');
             AccountService.me().success(function (res) {
+                console.log('2');
                 window.cheepow.user = res.data;
                 $scope.user = window.cheepow.user;
             }).error(function () {
                 $cookies.remove('Authorization');
                 checkFacebookLoginState();
+                console.log('3');
             }).finally(function () {
                 doneCheckAuth();
             });
         }
         else {
+            console.log('4');
             checkFacebookLoginState();
         }
     }
@@ -34,6 +38,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
     function checkFacebookLoginState () {
         FB.getLoginStatus(function (response) {
+            console.log('5');
             statusChangeCallback(response, facebookLogin, noFacebokLogin);
         });
     }
@@ -47,6 +52,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             $scope.user = window.cheepow.user;
             console.log($scope.user);
         }).error(function () {
+            console.log('6');
             notLogin();
         }).finally(function () {
             doneCheckAuth();
