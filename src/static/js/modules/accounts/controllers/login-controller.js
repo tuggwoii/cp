@@ -26,13 +26,6 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         }
     }
 
-    function checkLoginState () {
-        FB.getLoginStatus(function (response) {
-            console.log('zsdf');
-            //statusChangeCallback(response, facebookLogin, noFacebokLogin);
-        });
-    }
-
     $scope.init = function () {
         if (!$scope.user || !$scope.user.id) {
             $scope.model = {};
@@ -57,10 +50,24 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         }
     };
 
-    $scope.facebookLogin = function () {
-
+    $scope.facebookLogin = function (creds) {
+        AccountService.login(creds).success(function (res) {
+            success(res);
+        }).error(function (res) {
+            error(res, 500)
+        });
     };
 
     $scope.init();
 
 }]);
+
+function facebookLogin (creds) {
+    angular.element(document.getElementById('loginForm')).scope().facebookLogin(creds);
+}
+
+function checkLoginState () {
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response, facebookLogin);
+    });
+}
