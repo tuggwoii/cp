@@ -6,9 +6,11 @@ module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'Acc
     };
 
     $scope.logout = function () {
-        AccountService.logout().success(function () {
+        AccountService.logout().then(function () {
             $cookies.remove('Authorization');
             window.location.href = '/';
+        }).catch(function () {
+            alert('ERROR');
         });
     };
 
