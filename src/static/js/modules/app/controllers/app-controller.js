@@ -8,7 +8,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 $scope.user = window.cheepow.user;
             }).error(function () {
                 $cookies.remove('Authorization');
-                notLogin();
+                checkFacebookLoginState();
             }).finally(function () {
                 doneCheckAuth();
             });
